@@ -2,35 +2,35 @@
 
 function PageHeader()
 {
-    ?>
-        <header class="navbar navbar-dark bg-dark navbar-fixed-top" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="#">Company name</a>
-                </div>
+?>
+    <header class="navbar navbar-dark bg-dark navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Company name</a>
             </div>
-        </header>
-    <?php
+        </div>
+    </header>
+<?php
 }
 
 function InputForm()
 {
 ?>
-	<div class="container">
+    <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-9 col-lg-7 col-xl-6"
+            <div class="col-md-9 col-lg-7 col-xl-6 pt-md-3">
                 <form method="post">
                     <div class="form-group">
                         <label for="clientname">Ваше имя</label>
-                        <input type="text" class="form-control form-control-sm" name="clientname" id="clientname" placeholder="Игорь">
+                        <input required type="text" class="form-control form-control-sm" name="clientName" id="clientname" placeholder="Игорь">
                     </div>
                     <div class="form-group">
                         <label for="clientsurname">Ваша фамилия</label>
-                        <input type="text" class="form-control form-control-sm" name="clientsurname" id="clientsurname" placeholder="Крупицын">
+                        <input required type="text" class="form-control form-control-sm" name="clientSurname" id="clientsurname" placeholder="Крупицын">
                     </div>
                     <div class="form-group">
                         <label for="clientphone">Ваш телефон</label>
-                        <input type="tel" class="form-control form-control-sm" name="clientphone" id="clientphone" placeholder="+7(___)___-__-__">
+                        <input required type="tel" class="form-control form-control-sm" name="clientPhone" id="clientphone" placeholder="+7(000)000-00-00">
                     </div>
                     <div class="form-group">
                         <label for="rates">Выберите тариф</label>
@@ -42,11 +42,11 @@ function InputForm()
                     </div>
                     <div class="form-group">
                         <label for="selectdate">Укажите первый день, удобный для доставки</label>
-                        <input type="date" name="selectdate" id="selectdate" class="form-control form-control-sm" id="">
+                        <input required type="date" name="selectdate" id="selectDate" class="form-control form-control-sm" id="">
                     </div>
                     <div class="form-group">
                         <label for="address">Укажите адрес доставки</label>
-                        <input type="text" class="form-control form-control-sm" name="address" id="address" placeholder="г. Нижний тагил, ул. Цюрупы, 15">
+                        <input required type="text" class="form-control form-control-sm" name="address" id="address" placeholder="г. Нижний тагил, ул. Цюрупы, 15">
                     </div>
                     <button type="submit" class="btn btn-primary">Подтвердить</button>
                 </form>
@@ -102,7 +102,7 @@ function InitDB()
 	// Создание таблицы Clients
 
     if (mysqli_query($db, "CREATE TABLE IF NOT EXISTS `hometask`.`Clients` (
-                  `clnt_id` INT NOT NULL,
+                  `clnt_id` INT NOT NULL AUTO_INCREMENT,
                   `clnt_name` VARCHAR(50) NOT NULL,
                   `clnt_surname` VARCHAR(50) NOT NULL,
                   `clnt_phone` VARCHAR(20) NOT NULL,
@@ -170,8 +170,48 @@ function InitDB()
 
 }
 
-function GetOrder()
+function ClientsCheck()
 {
-    $s = $_POST["clientname"];
-    print $s;
+    global $db;
+    $clientname = htmlspecialchars($_POST['clientName']);
+    $clientsurname = htmlspecialchars($_POST['clientSurname']);
+    $clientphone = htmlspecialchars($_POST['clientPhone']);
+
+    if (mysqli_query($db, "INSERT 
+INTO `Clients` (`clnt_name`, `clnt_surname`, `clnt_phone`) 
+VALUES ('$clientname', '$clientsurname', '$clientphone');") === TRUE)
+    {
+        print "Запись в таблицу Clients добавлена<br>";
+    }
+
+    else
+    {
+        $query = mysqli_query($db, "SELECT clnt_id FROM Clients WHERE clnt_phone LIKE '$clientphone'");
+        $array = mysqli_fetch_array($query);
+        mysqli_query($db, "UPDATE Clients SET clnt_name='$clientname', clnt_surname='$clientsurname' WHERE clnt_id='$array[0]'");
+        print "Запись в таблице Clients обновлена";
+    }
+
 }
+
+/* function GetOrder()
+{
+    $clientname = htmlspecialchars($_POST['clientName']);
+    $clientsurname = htmlspecialchars($_POST['clientSurname']);
+    $clientphone = htmlspecialchars($_POST['clientPhone']);
+    $clientdate = htmlspecialchars($_POST['selectDate']);
+    print "$clientname<br>";
+    print "$clientsurname<br>";
+    print "$clientphone<br>";
+    print "$clientdate<br>";
+}
+
+function ShowClients()
+{
+    global $db;
+    $showclients = array();
+
+        mysqli_query($db, "SELECT * FROM Clients;");
+        print $showclients;
+}
+*/
