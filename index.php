@@ -6,6 +6,8 @@ require_once 'header.php';
 StartDB();
 PageHeader();
 InputForm();
+RateSelector();
+InputForm2();
 //GetOrder();
 //ClientsCheck();
 

@@ -1,4 +1,5 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
+<html lang="en">
 <?php
 	require_once 'main.php'; require_once "start_mysql.php";
 ?>

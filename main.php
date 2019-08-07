@@ -17,46 +17,39 @@ function InputForm()
 {
     ?>
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-9 col-lg-7 col-xl-6 pt-md-3">
-                <form method="post">
-                    <div class="form-group">
-                        <label for="clientname">Ваше имя</label>
-                        <input required type="text" class="form-control form-control-sm" name="clientName"
-                               id="clientname" placeholder="Игорь">
-                    </div>
-                    <div class="form-group">
-                        <label for="clientsurname">Ваша фамилия</label>
-                        <input required type="text" class="form-control form-control-sm" name="clientSurname"
-                               id="clientsurname" placeholder="Крупицын">
-                    </div>
-                    <div class="form-group">
-                        <label for="clientphone">Ваш телефон</label>
-                        <input required type="tel" class="form-control form-control-sm" name="clientPhone"
-                               id="clientphone" placeholder="+7(000)000-00-00">
-                    </div>
-                    <div class="form-group">
-                        <label for="rates">Выберите тариф</label>
-                        <select class="form-control form-control-sm" id="rates">
-                            <option name="option1">var1</option>
-                            <option name="option2">var2</option>
-                            <option name="option3">var3</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="selectdate">Укажите первый день, удобный для доставки</label>
-                        <input required type="date" name="selectdate" id="selectDate"
-                               class="form-control form-control-sm" id="">
-                    </div>
-                    <div class="form-group">
-                        <label for="address">Укажите адрес доставки</label>
-                        <input required type="text" class="form-control form-control-sm" name="address" id="address"
-                               placeholder="г. Нижний тагил, ул. Цюрупы, 15">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Подтвердить</button>
-                </form>
-            </div>
-        </div>
+         <div class="row justify-content-center">
+              <div class="col-md-9 col-lg-7 col-xl-6 pt-md-3">
+                   <form method="post">
+                        <div class="form-group">
+                             <label for="clientname">Ваше имя</label>
+                             <input required type="text" class="form-control form-control-sm" name="clientName" id="clientname" placeholder="Игорь">
+                        </div>
+                        <div class="form-group">
+                             <label for="clientsurname">Ваша фамилия</label>
+                             <input required type="text" class="form-control form-control-sm" name="clientSurname" id="clientsurname" placeholder="Крупицын">
+                        </div>
+                        <div class="form-group">
+                             <label for="clientphone">Ваш телефон</label>
+                             <input required type="tel" class="form-control form-control-sm" name="clientPhone" id="clientphone" placeholder="+7(000)000-00-00">
+                        </div>
+    <?php
+}
+
+function InputForm2()
+{
+    ?>
+                        <div class="form-group">
+                            <label for="selectdate">Укажите первый день, удобный для доставки</label>
+                            <input required type="date" name="selectdate" id="selectDate" class="form-control form-control-sm" id="">
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Укажите адрес доставки</label>
+                            <input required type="text" class="form-control form-control-sm" name="address" id="address" placeholder="г. Нижний тагил, ул. Цюрупы, 15">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Подтвердить</button>
+                   </form>
+              </div>
+         </div>
     </div>
     <?php
 }
@@ -171,7 +164,38 @@ VALUES ('$clientname', '$clientsurname', '$clientphone');") === TRUE) {
         mysqli_query($db, "UPDATE Clients SET clnt_name='$clientname', clnt_surname='$clientsurname' WHERE clnt_id='$array[0]'");
         print "Запись в таблице Clients обновлена";
     }
+}
 
+function RateSelector()
+{
+    // создаем массив из бд rates, первый столбец - id тарифа (rate_id), второй — название тарифа (rate_type)
+    global $db;
+    $results = array();
+    $query = mysqli_query($db, "SELECT rate_id, rate_type FROM rates");
+    while ($row = mysqli_fetch_assoc($query)) {
+        $results[] = $row;
+    }
+
+    // sizeof показывает количество строк в массиве, столько же будет пунктов в селекте
+    $strnum = sizeof($results);
+    $i = 0;
+
+    // теперь выводим сам селект
+    ?>
+    <div class="form-group">
+        <label for="rates">Выберите тариф</label>
+        <select class="form-control form-control-sm" id="rates">
+            <?php
+            do {
+                ?>
+                <option
+                name="<?php print $results[$i]['rate_id']; ?>"><?php print $results[$i]['rate_type']; ?></option><?php
+                $i++;
+            } while ($i < $strnum);
+            ?>
+        </select>
+    </div>
+    <?php
 }
 
 /* function GetOrder()
