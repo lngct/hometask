@@ -17,39 +17,39 @@ function InputForm()
 {
     ?>
     <div class="container">
-         <div class="row justify-content-center">
-              <div class="col-md-9 col-lg-7 col-xl-6 pt-md-3">
-                   <form method="post">
-                        <div class="form-group">
-                             <label for="clientname">Ваше имя</label>
-                             <input required type="text" class="form-control form-control-sm" name="clientName" id="clientname" placeholder="Игорь">
-                        </div>
-                        <div class="form-group">
-                             <label for="clientsurname">Ваша фамилия</label>
-                             <input required type="text" class="form-control form-control-sm" name="clientSurname" id="clientsurname" placeholder="Крупицын">
-                        </div>
-                        <div class="form-group">
-                             <label for="clientphone">Ваш телефон</label>
-                             <input required type="tel" class="form-control form-control-sm" name="clientPhone" id="clientphone" placeholder="+7(000)000-00-00">
-                        </div>
-    <?php
-}
-
-function InputForm2()
-{
-    ?>
-                        <div class="form-group">
-                            <label for="selectdate">Укажите первый день, удобный для доставки</label>
-                            <input required type="date" name="selectdate" id="selectDate" class="form-control form-control-sm" id="">
-                        </div>
-                        <div class="form-group">
-                            <label for="address">Укажите адрес доставки</label>
-                            <input required type="text" class="form-control form-control-sm" name="address" id="address" placeholder="г. Нижний тагил, ул. Цюрупы, 15">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Подтвердить</button>
-                   </form>
-              </div>
-         </div>
+        <div class="row justify-content-center">
+            <div class="col-md-9 col-lg-7 col-xl-6 pt-md-3">
+                <form method="post">
+                    <div class="form-group">
+                        <label for="clientname">Ваше имя</label>
+                        <input required type="text" class="form-control form-control-sm" name="clientName"
+                               id="clientname" placeholder="Игорь">
+                    </div>
+                    <div class="form-group">
+                        <label for="clientsurname">Ваша фамилия</label>
+                        <input required type="text" class="form-control form-control-sm" name="clientSurname"
+                               id="clientsurname" placeholder="Крупицын">
+                    </div>
+                    <div class="form-group">
+                        <label for="clientphone">Ваш телефон</label>
+                        <input required type="tel" class="form-control form-control-sm" name="clientPhone"
+                               id="clientphone" placeholder="+7(000)000-00-00">
+                    </div>
+                    <?php RateSelector(); ?>
+                    <div class="form-group">
+                        <label for="selectdate">Укажите первый день, удобный для доставки</label>
+                        <input required type="date" name="selectdate" id="selectDate"
+                               class="form-control form-control-sm" id="">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Укажите адрес доставки</label>
+                        <input required type="text" class="form-control form-control-sm" name="address" id="address"
+                               placeholder="г. Нижний тагил, ул. Цюрупы, 15">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Подтвердить</button>
+                </form>
+            </div>
+        </div>
     </div>
     <?php
 }
@@ -180,7 +180,7 @@ function RateSelector()
     $strnum = sizeof($results);
     $i = 0;
 
-    // теперь выводим сам селект
+    // теперь выводим сам селект при помощи цикла do while
     ?>
     <div class="form-group">
         <label for="rates">Выберите тариф</label>
