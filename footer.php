@@ -5,7 +5,9 @@
 <script src="js/datepicker.min.js"></script>
 <script>
     $('document').ready(function () {
+        $('#selectDate').prop('disabled', true);
         $('select').on('change', function() {
+            $('#selectDate').prop('disabled', false);
             var ratetype = this.value;
 
             $.ajax({
