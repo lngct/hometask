@@ -38,8 +38,9 @@ function InputForm()
                     <?php RateSelector(); ?>
                     <div class="form-group">
                         <label for="selectdate">Укажите первый день, удобный для доставки</label>
-                        <input required type="date" name="selectdate" id="selectDate"
-                               class="form-control form-control-sm" id="">
+                        <input required type="text" name="selectdate" id="selectDate"
+                               class="datepicker-here form-control form-control-sm"
+                               placeholder="<?php print date("d.m.Y", time()); ?>">
                     </div>
                     <div class="form-group">
                         <label for="address">Укажите адрес доставки</label>
@@ -184,12 +185,13 @@ function RateSelector()
     ?>
     <div class="form-group">
         <label for="rates">Выберите тариф</label>
-        <select class="form-control form-control-sm" id="rates">
+        <select class="form-control form-control-sm" id="rates" name="rates">
+            <option value="" disabled selected>Выберите из списка</option>
             <?php
             do {
                 ?>
-                <option
-                name="<?php print $results[$i]['rate_id']; ?>"><?php print $results[$i]['rate_type']; ?></option><?php
+                <option class="rttp"
+                name="<?php print $i; ?>"><?php print $results[$i]['rate_type']; ?></option><?php
                 $i++;
             } while ($i < $strnum);
             ?>
@@ -197,25 +199,18 @@ function RateSelector()
     </div>
     <?php
 }
-
-/* function GetOrder()
-{
-    $clientname = htmlspecialchars($_POST['clientName']);
-    $clientsurname = htmlspecialchars($_POST['clientSurname']);
-    $clientphone = htmlspecialchars($_POST['clientPhone']);
-    $clientdate = htmlspecialchars($_POST['selectDate']);
-    print "$clientname<br>";
-    print "$clientsurname<br>";
-    print "$clientphone<br>";
-    print "$clientdate<br>";
-}
-
-function ShowClients()
+/*
+function DeliveryDays()
 {
     global $db;
-    $showclients = array();
-
-        mysqli_query($db, "SELECT * FROM Clients;");
-        print $showclients;
+    global $massiv;
+    // получаем количество дней для прибавления к текущей дате, чтобы вычислить день доставки
+    $ratetype = htmlspecialchars($_POST['rates']);
+    $query = mysqli_query($db, "SELECT dlvr_days FROM rates WHERE rate_type='$ratetype'");
+    while ($row = mysqli_fetch_assoc($query)) {
+        $massiv[] = $row;
+    }
+    $result=$massiv['0']['dlvr_days']; // количество дней из списка
+    print $result;
 }
 */
